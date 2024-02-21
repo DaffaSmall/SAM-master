@@ -110,7 +110,7 @@ int TextToPhonemes(unsigned char *input) {
 	inputtemp[255] = 27;
 	mem56 = mem61 = 255;
 
-pos36554:
+void pos36554(){
     while (1) {
         while(1) {
             X = ++mem61;
@@ -151,6 +151,7 @@ pos36554:
 	// go to the right rules for this character.
     X = mem64 - 'A';
     mem62 = tab37489[X] | (tab37515[X]<<8);
+}
 
 pos36700:
 	// find next rule
@@ -261,7 +262,7 @@ pos36700:
                             mem57 = A = GetRuleByte(mem62, Y);
                             A = A & 127;
                             if (A != '=') input[++mem56] = A;
-                            if ((mem57 & 128) != 0) goto pos36554;
+                            if ((mem57 & 128) != 0) pos36554(); break;
                             Y++;
                         }
                     }
