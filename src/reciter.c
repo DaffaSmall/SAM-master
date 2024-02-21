@@ -110,7 +110,7 @@ int TextToPhonemes(unsigned char *input) {
 	inputtemp[255] = 27;
 	mem56 = mem61 = 255;
 
-void pos36554(){
+int pos36554(){
     while (1) {
         while(1) {
             X = ++mem61;
@@ -133,7 +133,7 @@ void pos36554(){
         mem57 = tab36376[mem64];
         if((mem57&2) != 0) {
             mem62 = 37541;
-            pos36700();
+            return pos36700();
         }
         
         if(mem57 != 0) break;
@@ -170,7 +170,7 @@ int pos36700(){
 	Y = mem66 + 1;
 
 	while(1) {
-		if (GetRuleByte(mem62, Y) != inputtemp[X]) pos36700();
+		if (GetRuleByte(mem62, Y) != inputtemp[X]) return pos36700();
 		if(++Y == mem65) break;
 		mem60 = ++X;
 	}
@@ -229,7 +229,7 @@ int pos36700(){
                         } else r = handle_ch(A, mem58+1);
                     }
 
-                    if (r == 1) pos36700();
+                    if (r == 1) return pos36700();
                     if (r == -2) { 
                         r = 0;
                         continue;
@@ -239,7 +239,7 @@ int pos36700(){
             }
             X = mem57 & 127;
             if ((tab36376[X] & 128) == 0) break;
-            if (inputtemp[mem59-1] != mem57) pos36700();
+            if (inputtemp[mem59-1] != mem57) return pos36700();
             --mem59;
         }
 
@@ -278,7 +278,7 @@ int pos36700(){
             }
         }
 
-        if (r == 1) pos36700();
+        if (r == 1) return pos36700();
 
         mem59 = X;
     }
@@ -289,11 +289,11 @@ int pos36700(){
             if((tab36376[inputtemp[X+1]] & 128) != 0) {
                 A = inputtemp[++X];
                 if (A == 'L') {
-                    if (inputtemp[++X] != 'Y') pos36700();
+                    if (inputtemp[++X] != 'Y') return pos36700();
                 } else if ((A != 'R') && (A != 'S') && (A != 'D') && !match("FUL")) pos36700();
             }
         } else {
-            if (!match("ING")) pos36700();
+            if (!match("ING")) return pos36700();
             mem58 = X;
         }
     } while (A == '%');
