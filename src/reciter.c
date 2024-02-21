@@ -153,7 +153,7 @@ void pos36554(){
     mem62 = tab37489[X] | (tab37515[X]<<8);
 }
 
-void pos36700(){
+int pos36700(){
 	// find next rule
 	while ((GetRuleByte(++mem62, 0) & 128) == 0);
 	Y = 0;
@@ -185,8 +185,57 @@ void pos36700(){
             mem66--;
             mem57 = GetRuleByte(mem62, mem66);
             if ((mem57 & 128) != 0) {
-                mem58 = mem60;
-                goto pos37184;
+                mem58 = mem60;            
+                r = 0;
+                do {
+                    while (1) {
+                        Y = mem65 + 1;
+                        if(Y == mem64) {
+                            mem61 = mem60;
+
+                            if (debug) PrintRule(mem62);
+
+                            while(1) {
+                                mem57 = A = GetRuleByte(mem62, Y);
+                                A = A & 127;
+                                if (A != '=') input[++mem56] = A;
+                                if ((mem57 & 128) != 0) pos36554();
+                                Y++;
+                            }
+                        }
+                        mem65 = Y;
+                        mem57 = GetRuleByte(mem62, Y);
+                        if((tab36376[mem57] & 128) == 0) break;
+                        if (inputtemp[mem58+1] != mem57) {
+                            r = 1;
+                            break;
+                        }
+                        ++mem58;
+                    }
+
+                    if (r == 0) {
+                        A = mem57;
+                        if (A == '@') {
+                            if(Code37055(mem58+1, 4) == 0) {
+                                A = inputtemp[X];
+                                if ((A != 82) && (A != 84) && 
+                                    (A != 67) && (A != 83)) r = 1;
+                            } else {
+                                r = -2;
+                            }
+                        } else if (A == ':') {
+                            while (Code37055(mem58+1, 32)) mem58 = X;
+                            r = -2;
+                        } else r = handle_ch(A, mem58+1);
+                    }
+
+                    if (r == 1) pos36700();
+                    if (r == -2) { 
+                        r = 0;
+                        continue;
+                    }
+                    if (r == 0) mem58 = X;
+                } while (r == 0);
             }
             X = mem57 & 127;
             if ((tab36376[X] & 128) == 0) break;
@@ -247,58 +296,6 @@ void pos36700(){
             if (!match("ING")) pos36700();
             mem58 = X;
         }
-        
-        pos37184:
-            r = 0;
-            do {
-                while (1) {
-                    Y = mem65 + 1;
-                    if(Y == mem64) {
-                        mem61 = mem60;
-                        
-                        if (debug) PrintRule(mem62);
-                        
-                        while(1) {
-                            mem57 = A = GetRuleByte(mem62, Y);
-                            A = A & 127;
-                            if (A != '=') input[++mem56] = A;
-                            if ((mem57 & 128) != 0) pos36554();
-                            Y++;
-                        }
-                    }
-                    mem65 = Y;
-                    mem57 = GetRuleByte(mem62, Y);
-                    if((tab36376[mem57] & 128) == 0) break;
-                    if (inputtemp[mem58+1] != mem57) {
-                        r = 1;
-                        break;
-                    }
-                    ++mem58;
-                }
-    
-                if (r == 0) {
-                    A = mem57;
-                    if (A == '@') {
-                        if(Code37055(mem58+1, 4) == 0) {
-                            A = inputtemp[X];
-                            if ((A != 82) && (A != 84) && 
-                                (A != 67) && (A != 83)) r = 1;
-                        } else {
-                            r = -2;
-                        }
-                    } else if (A == ':') {
-                        while (Code37055(mem58+1, 32)) mem58 = X;
-                        r = -2;
-                    } else r = handle_ch(A, mem58+1);
-                }
-    
-                if (r == 1) pos36700();
-                if (r == -2) { 
-                    r = 0;
-                    continue;
-                }
-                if (r == 0) mem58 = X;
-            } while (r == 0);
     } while (A == '%');
 	return 0;
 }}
