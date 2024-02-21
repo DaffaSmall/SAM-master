@@ -3,12 +3,12 @@ OBJS = reciter.o sam.o render.o main.o debug.o processframes.o createtransitions
 CC = gcc
 
 # libsdl present
-CFLAGS =  -Wall -O2 -DUSESDL `sdl-config --cflags`
-LFLAGS = `sdl-config --libs`
+#CFLAGS =  -Wall -O2 -DUSESDL `sdl-config --cflags`
+#LFLAGS = `sdl-config --libs`
 
 # no libsdl present
-#CFLAGS =  -Wall -O2
-#LFLAGS = 
+CFLAGS =  -Wall -Ofast
+LFLAGS = 
 
 sam: $(OBJS)
 	$(CC) -o sam $(OBJS) $(LFLAGS)
