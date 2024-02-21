@@ -133,7 +133,7 @@ void pos36554(){
         mem57 = tab36376[mem64];
         if((mem57&2) != 0) {
             mem62 = 37541;
-            goto pos36700;
+            pos36700();
         }
         
         if(mem57 != 0) break;
@@ -153,7 +153,7 @@ void pos36554(){
     mem62 = tab37489[X] | (tab37515[X]<<8);
 }
 
-pos36700:
+void pos36700(){
 	// find next rule
 	while ((GetRuleByte(++mem62, 0) & 128) == 0);
 	Y = 0;
@@ -170,7 +170,7 @@ pos36700:
 	Y = mem66 + 1;
 
 	while(1) {
-		if (GetRuleByte(mem62, Y) != inputtemp[X]) goto pos36700;
+		if (GetRuleByte(mem62, Y) != inputtemp[X]) pos36700();
 		if(++Y == mem65) break;
 		mem60 = ++X;
 	}
@@ -190,7 +190,7 @@ pos36700:
             }
             X = mem57 & 127;
             if ((tab36376[X] & 128) == 0) break;
-            if (inputtemp[mem59-1] != mem57) goto pos36700;
+            if (inputtemp[mem59-1] != mem57) pos36700();
             --mem59;
         }
 
@@ -229,7 +229,7 @@ pos36700:
             }
         }
 
-        if (r == 1) goto pos36700;
+        if (r == 1) pos36700();
 
         mem59 = X;
     }
@@ -240,11 +240,11 @@ pos36700:
             if((tab36376[inputtemp[X+1]] & 128) != 0) {
                 A = inputtemp[++X];
                 if (A == 'L') {
-                    if (inputtemp[++X] != 'Y') goto pos36700;
-                } else if ((A != 'R') && (A != 'S') && (A != 'D') && !match("FUL")) goto pos36700;
+                    if (inputtemp[++X] != 'Y') pos36700();
+                } else if ((A != 'R') && (A != 'S') && (A != 'D') && !match("FUL")) pos36700();
             }
         } else {
-            if (!match("ING")) goto pos36700;
+            if (!match("ING")) pos36700();
             mem58 = X;
         }
         
@@ -262,7 +262,7 @@ pos36700:
                             mem57 = A = GetRuleByte(mem62, Y);
                             A = A & 127;
                             if (A != '=') input[++mem56] = A;
-                            if ((mem57 & 128) != 0) pos36554(); break;
+                            if ((mem57 & 128) != 0) pos36554();
                             Y++;
                         }
                     }
@@ -292,7 +292,7 @@ pos36700:
                     } else r = handle_ch(A, mem58+1);
                 }
     
-                if (r == 1) goto pos36700;
+                if (r == 1) pos36700();
                 if (r == -2) { 
                     r = 0;
                     continue;
@@ -301,4 +301,4 @@ pos36700:
             } while (r == 0);
     } while (A == '%');
 	return 0;
-}
+}}
